@@ -1,0 +1,27 @@
+{
+  "manifest_version": 3,
+  "name": "RBStats",
+  "version": "1.0",
+  "description": "Roblox Account Stats & Token Login & Alt Manager & Bulk Check Utility",
+  "permissions": [
+    "cookies",
+    "storage",
+    "tabs"
+  ],
+  "host_permissions": [
+    "https://*.roblox.com/*",
+    "https://*.rolimons.com/*",
+    "https://*.rbxcdn.com/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  }
+}

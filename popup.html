@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RBStats - Roblox Player Statistics</title>
+  <link rel="stylesheet" href="popup.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <span class="logo-icon">▲</span>
+        <h1>RBStats</h1>
+      </div>
+      <div id="auth-status" class="status-badge">Checking...</div>
+    </header>
+
+    <main>
+      <section id="login-section" class="card hidden">
+        <h2>Authentication</h2>
+        <p class="description">Enter your .ROBLOSECURITY token to access your stats.</p>
+        <div class="input-group">
+          <textarea id="token-input" placeholder="Paste your .ROBLOSECURITY cookie here..."></textarea>
+        </div>
+        <button id="login-btn" class="primary-btn">Login with Token</button>
+      </section>
+
+      <section id="profile-section" class="card hidden">
+        <div class="user-info">
+          <div class="avatar-wrapper">
+            <img id="user-avatar" src="" alt="Avatar">
+            <div id="user-presence" class="presence-indicator"></div>
+          </div>
+          <div class="user-details">
+            <h2 id="username">Loading...</h2>
+            <p id="user-id">ID: ---------</p>
+          </div>
+        </div>
+
+        <div class="stats-overview single-col">
+          <div class="stat-item">
+            <span class="label">Recent Average Price (RAP)</span>
+            <span id="stat-rap" class="value">0</span>
+          </div>
+        </div>
+
+        <button id="generate-image-btn" class="primary-btn" style="margin-top: 20px;">
+          <span>🖼️</span> Generate Summary Image
+        </button>
+        <button id="logout-btn" class="text-btn">Logout</button>
+      </section>
+
+      <section id="preview-section" class="card hidden">
+        <div class="preview-header">
+          <h2>Your Stat Card</h2>
+          <button id="close-preview" class="close-btn">&times;</button>
+        </div>
+        <div id="canvas-container">
+          <canvas id="stats-canvas"></canvas>
+        </div>
+        <button id="download-btn" class="primary-btn">
+          <span>⬇️</span> Download Image
+        </button>
+      </section>
+    </main>
+
+    <div style="padding: 0 20px; display: flex; flex-direction: column; gap: 10px;">
+      <button id="copy-token-btn" class="secondary-btn hidden" style="margin-top: 0;">
+        <span>📋</span> Copy .ROBLOSECURITY
+      </button>
+      <button id="global-alt-manager-btn" class="secondary-btn" style="margin-top: 0; border-color: var(--accent-primary); box-shadow: 0 4px 15px rgba(139, 92, 246, 0.2);">
+        <span>👥</span> Open Alt Manager
+      </button>
+    </div>
+
+    <footer>
+      <p>Created by @t4ruta</p>
+    </footer>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

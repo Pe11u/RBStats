@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RBStats - Alt Manager</title>
+  <link rel="stylesheet" href="alt_manager.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Outfit:wght@600;700&display=swap"
+    rel="stylesheet">
+</head>
+
+<body>
+  <div class="app-container">
+    <header class="app-header">
+      <div class="logo">
+        <span class="logo-icon">▲</span>
+        <h1>RBStats Alt Manager</h1>
+      </div>
+      <div class="header-actions">
+        <button id="nav-add-btn" class="primary-btn"><span>➕</span> Add Account</button>
+        <button id="nav-trash-btn" class="secondary-btn"><span>🗑️</span> Trash Bin</button>
+      </div>
+    </header>
+
+    <div class="main-content">
+      <aside class="sidebar">
+        <div id="add-account-panel" class="card hidden">
+          <h2>Add New Account</h2>
+          <div class="input-group">
+            <label>Username <span class="muted">(Optional if token)</span></label>
+            <input type="text" id="alt-username" placeholder="Username">
+          </div>
+          <div class="input-group">
+            <label>Password <span class="muted">(Optional if token)</span></label>
+            <input type="password" id="alt-password" placeholder="Password">
+          </div>
+          <div class="input-group">
+            <label>Token (.ROBLOSECURITY)</label>
+            <textarea id="alt-token" placeholder="Paste token here..."></textarea>
+          </div>
+          <p class="warning-text">Logging in with Username/Password may fail due to Captcha. Providing a valid Token
+            directly is recommended.</p>
+          <div class="action-row">
+            <button id="save-account-btn" class="primary-btn">Save Account</button>
+            <button id="add-multiple-btn" class="text-btn">Add multiple</button>
+            <button id="cancel-add-btn" class="text-btn">Cancel</button>
+          </div>
+          <div id="add-status" class="status-msg"></div>
+        </div>
+
+        <div class="card filter-card">
+          <h2>Filter & Select</h2>
+          <div class="input-group">
+            <label>Target</label>
+            <select id="filter-target">
+              <option value="rap">RAP</option>
+              <option value="robux">Robux Balance</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label>Condition</label>
+            <select id="filter-condition">
+              <option value=">">Greater than (>)</option>
+              <option value="<">Less than (<)< /option>
+              <option value=">=">Greater or Equal (>=)</option>
+              <option value="<=">Less or Equal (<=)< /option>
+              <option value="==">Exact (==)</option>
+              <option value="between">Between Range</option>
+              <option value="outside">Outside Range</option>
+            </select>
+          </div>
+          <div class="input-group" id="value-inputs">
+            <label>Value</label>
+            <input type="number" id="filter-value-1" placeholder="Value 1">
+            <input type="number" id="filter-value-2" class="hidden" placeholder="Value 2 (Max)">
+          </div>
+          <button id="apply-filter-btn" class="secondary-btn" style="width: 100%;">☑️ Select Matches</button>
+          <button id="add-selection-btn" class="secondary-btn" style="width: 100%; margin-top: 8px;">➕ Add to
+            Selection</button>
+          <button id="remove-invalid-btn" class="danger-btn"
+            style="width: 100%; margin-top: 8px; font-size: 0.8rem; padding: 6px; background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.4); color: #fca5a5;">
+            🗑️ Remove Invalid Tokens
+          </button>
+        </div>
+      </aside>
+
+      <main class="accounts-area card">
+        <div class="action-bar">
+          <div class="selection-tools">
+            <label class="custom-checkbox">
+              <input type="checkbox" id="select-all-cb">
+              <span class="checkmark"></span>
+              Select All
+            </label>
+            <button id="reverse-select-btn" class="text-btn"
+              style="margin-left: 10px; font-size: 0.8rem;">Reverse</button>
+            <span id="select-count" style="margin-left: 15px; font-size: 0.85rem; color: var(--text-muted);">0
+              selected</span>
+          </div>
+          <div class="bulk-actions">
+            <button id="bulk-check-btn" class="primary-btn">🔄 Bulk Check</button>
+            <button id="pin-selected-btn" class="secondary-btn" style="border-color: #ca8a04; color: #fde047;">📌
+              Pin</button>
+            <button id="delete-selected-btn" class="danger-btn">🗑️ Delete</button>
+          </div>
+        </div>
+
+        <div id="accounts-list" class="accounts-grid">
+          <div class="empty-state">No accounts added yet.</div>
+        </div>
+      </main>
+    </div>
+
+    <div id="trash-modal" class="modal hidden">
+      <div class="modal-content card">
+        <div class="modal-header">
+          <h2>Trash Bin</h2>
+          <button id="close-trash-btn" class="close-btn">&times;</button>
+        </div>
+
+        <div class="trash-action-bar action-bar">
+          <label class="custom-checkbox">
+            <input type="checkbox" id="trash-select-all-cb">
+            <span class="checkmark"></span>
+            Select All
+          </label>
+          <div class="bulk-actions">
+            <button id="restore-trash-btn" class="secondary-btn">Restore Selected</button>
+            <button id="empty-trash-btn" class="danger-btn">Empty Trash Bin</button>
+          </div>
+        </div>
+
+        <div id="trash-list" class="accounts-grid">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hidden">
+    <canvas id="stats-canvas"></canvas>
+  </div>
+
+  <div id="bulk-add-modal" class="modal hidden">
+    <div class="modal-content card" style="max-width: 600px;">
+      <div class="modal-header">
+        <h2>Add Multiple Accounts (Beta)</h2>
+        <button id="close-bulk-add-btn" class="close-btn">&times;</button>
+      </div>
+      <div class="input-group">
+        <label>Format (e.g. %user%:%pass%:%token%)</label>
+        <input type="text" id="bulk-format" value="%user%:%pass%">
+      </div>
+      <div class="input-group">
+        <label>Account Separator <span class="muted">(type newline for line break)</span></label>
+        <input type="text" id="bulk-acc-sep" value="newline" placeholder="newline">
+      </div>
+      <div class="input-group" style="flex-grow: 1;">
+        <label>Accounts Data</label>
+        <textarea id="bulk-data" placeholder="user1:pass1&#10;user2:pass2"
+          style="height: 200px; padding: 10px;"></textarea>
+      </div>
+      <div class="action-row">
+        <button id="start-bulk-add-btn" class="primary-btn">Start Import</button>
+      </div>
+      <div id="bulk-status" class="status-msg"></div>
+    </div>
+  </div>
+
+  <script src="alt_manager.js"></script>
+</body>
+
+</html>
