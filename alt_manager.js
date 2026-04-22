@@ -832,7 +832,7 @@ async function generateStatsImage(user) {
 
     ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
     ctx.font = '600 22px Outfit, sans-serif';
-    ctx.fillText('RBStats - @t4ruta', 100, 610);
+    ctx.fillText('RBStats - @t4rutaru', 100, 610);
 }
 
 function drawRoundedRect(ctx, x, y, width, height, radius, fill) {
